@@ -1,0 +1,66 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this"><a href="{:url('admin/overseas/index')}">海外用户管理</a></li>
+            <li class=""><a href="{:url('admin/overseas/add')}">添加海外订阅用户</a></li>
+            <li class=""><a href="{:url('admin/overseas/send_sms')}">群发邮件</a></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+
+                <form class="layui-form layui-form-pane" action="{:url('admin/overseas/index')}" method="get">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键词</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="keyword" value="{$keyword}" placeholder="请输入关键词" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn">搜索</button>
+                    </div>
+                </form>
+                <hr>
+
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px;">ID</th>
+                        <th>联系人</th>
+                        <th>公司名</th>
+                        <th>国别</th>
+                        <th>岗位</th>
+                        <th>邮箱</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="overseas_list" item="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.uname}</td>
+                        <td>{$vo.company}</td>
+                        <td>{$vo.nationality}</td>
+                        <td>{$vo.posts}</td>
+                        <td>{$vo.email}</td>
+                        <td>{php}echo $vo['status']==1 ? '<p style="color:green">已发送</p>' : '<p style="color:red">未发送</p>';{/php}</td>
+                        <td>
+                            <a href="{:url('admin/overseas/send_sms',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-mini">发送邮件</a>
+                            <a href="{:url('admin/overseas/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+                            <a href="{:url('admin/overseas/delete',['id'=>$vo['id']])}" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <!--分页-->
+                {$overseas_list->render()}
+                
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,81 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class=""><a href="{:url('admin/overseas/index')}">海外用户管理</a></li>
+            <li class=""><a href="{:url('admin/overseas/add')}">添加海外订阅用户</a></li>
+            <li class="layui-this"><a href="{:url('admin/overseas/send_sms')}">群发邮件</a></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-container" action="{:url('admin/overseas/send')}" method="post">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户</label>
+                        <div class="layui-input-block">
+                        <textarea name="user" placeholder="" class="layui-textarea" id="user">{foreach name="res" item="vo"}{$vo.email}##{/foreach}</textarea>
+                        </div>
+                    </div>
+                   
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" value="" placeholder="请输入标题" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">内容</label>
+                        <div class="layui-input-block">
+                            <textarea name="content" placeholder="" class="layui-textarea" id="content" style="height:300px;">
+                            
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="*">发送</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+{/block}
+{block name="script"}
+<script>
+    $(function() {
+        var ue = UE.getEditor('content'),
+            uploadEditor = UE.getEditor('upload-photo-btn'),
+            photoListItem,
+            uploadImage;
+
+        uploadEditor.ready(function () {
+            uploadEditor.setDisabled();
+            uploadEditor.hide();
+            uploadEditor.addListener('beforeInsertImage', function (t, arg) {
+                $.each(arg, function (index, item) {
+                    photoListItem = '<div class="photo-list"><input type="text" name="photo[]" value="' + item.src + '" class="layui-input layui-input-inline">';
+                    photoListItem += '<button type="button" class="layui-btn layui-btn-danger remove-photo-btn">移除</button></div>';
+
+                    $('#photo-container').append(photoListItem).on('click', '.remove-photo-btn', function () {
+                        $(this).parent('.photo-list').remove();
+                    });
+                });
+            });
+        });
+
+        $('#upload-photo-btn').on('click', function () {
+            uploadImage = uploadEditor.getDialog("insertimage");
+            uploadImage.open();
+        });
+    });
+</script>
+{/block}

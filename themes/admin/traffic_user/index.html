@@ -1,0 +1,63 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">接送机信息</li>
+            <li class=""><a href="{:url('admin/TrafficUser/excel')}">导出excel表</a></li>
+        </ul>
+        <div class="layui-tab-content" id="printer">
+            <div class="layui-tab-item layui-show">
+
+                <form class="layui-form layui-form-pane" action="{:url('admin/TrafficUser/index')}" method="get">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键词</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="keyword" value="{$keyword}" style="width:400px;" placeholder="关键词可以是{姓名}{公司名}{邮箱}{电话}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn">搜索</button>
+                    </div>
+                </form>
+                <hr>
+
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px;">ID</th>
+                        <th>姓名</th>
+                        <th>公司</th>
+                        <th>职务</th>
+                        <th>手机</th>
+                        <th>邮箱</th>
+                        <th>来程交通</th>
+                        <th>返程交通</th>
+                        <th>报名时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="sign_list" item="vo" key="k"}
+                    <tr>
+                        <td>{$k+$zsort}</td>
+                        <td>{$vo.truename}</td>
+                        <td>{$vo.company_cn}</td>
+                        <td>{$vo.posts}</td>
+                        <td>{$vo.tel}</td>
+                        <td>{$vo.email}</td>
+                        <td>{if $vo.come_id != 0}{$traffic[$vo.come_id]}{else/}暂无{/if}</td>
+                        <td>{if $vo.go_id != 0}{$traffic[$vo.go_id]}{else/}暂无{/if}</td>
+                        <td>{$vo.apply_time}</td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <!--分页-->
+                {$sign_list->render()}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+

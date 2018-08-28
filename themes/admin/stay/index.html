@@ -1,0 +1,74 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">公司住宿管理</li>
+            <li class=""><a href="{:url('admin/stay/add')}">添加公司住宿</a></li>
+            <li class=""><a href="{:url('admin/stay/excel')}">导出Excel表</a></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+
+                <form class="layui-form layui-form-pane" action="{:url('admin/stay/index')}" method="get">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键词</label>
+                        <div class="layui-input-inline">
+                            <input type="text" style="width:300px;" name="keyword" value="{$keyword}" placeholder="关键词可以是{公司名}{入住酒店}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn">搜索</button>
+                    </div>
+                </form>
+                <hr>
+
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px;">ID</th>
+                        <th>公司名</th>
+                        <th>入住酒店</th>
+                        <th>标准房</th>
+                        <th>标准房入住时间</th>
+                        <th>标准房退房时间</th>
+                        <th>大床房</th>
+                        <th>大床房入住时间</th>
+                        <th>大床房退房时间</th>
+                        <th>其它房</th>
+                        <th>其它房入住时间</th>
+                        <th>其它房退房时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="stay_list" item="vo" key="k"}
+                    <tr>
+                        <td>{$k+$zsort}</td>
+                        <td>{$vo.company_cn}</td>
+                        <td>{$vo.hotel}</td>
+                        <td>{$vo.stay1}间</td>
+                        <td>{$vo.stay1_addtime}</td>
+                        <td>{$vo.stay1_endtime}</td>
+                        <td>{$vo.stay2}间</td>
+                        <td>{$vo.stay2_addtime}</td>
+                        <td>{$vo.stay2_endtime}</td>
+                        <td>{$vo.stay3}间</td>
+                        <td>{$vo.stay3_addtime}</td>
+                        <td>{$vo.stay3_endtime}</td>
+                        <td>
+                            <a href="{:url('admin/stay/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+                            <a href="{:url('admin/stay/delete',['id'=>$vo['id']])}" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <!--分页-->
+                {$stay_list->render()}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

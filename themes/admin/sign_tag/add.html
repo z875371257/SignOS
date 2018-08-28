@@ -1,0 +1,39 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class=""><a href="{:url('admin/SignTag/index')}">签到地点</a></li>
+            <li class="layui-this">添加签到地点</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-container" action="{:url('admin/SignTag/save')}" method="post">
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">签到地点</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" value="" required  lay-verify="required" placeholder="请输入签到地点" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">封面图</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="thumb" value="" class="layui-input layui-input-inline" id="thumb">
+                            <input type="file" name="file" class="layui-upload-file">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="*">保存</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

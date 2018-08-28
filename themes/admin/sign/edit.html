@@ -1,0 +1,152 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class=""><a href="{:url('admin/sign/index')}">参会人员签到管理</a></li>
+            <li class=""><a href="{:url('admin/sign/add')}">添加参会人员</a></li>
+            <li class="layui-this">编辑参会人员</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-container" action="{:url('admin/sign/update')}" method="post">
+                    
+                    <div class="layui-form-item"> 
+                        <label class="layui-form-label">公司名</label>
+                        <div class="layui-input-block">
+                            <select name="company_id" lay-verify="required" lay-search>
+                                <option value="{$sign.company_id}">{$company_cn[$sign['company_id']]}</option>
+                                {foreach name="company_list" item="vo"}
+                                <option value="{$vo.id}"> {$vo.company_cn}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">真实姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="truename" value="{$sign.truename}" required lay-verify="required" placeholder="请输入用户名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">职务</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="posts" value="{$sign.posts}"  placeholder="请输入用户名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="tel" value="{$sign.tel}"  placeholder="请输入手机" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" value="{$sign.email}" placeholder="请输入邮箱" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">座次</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="seat" value="{$sign.seat}" placeholder="(选填)座位号" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">签到地点</label>
+                        <div class="layui-input-block">
+                            {foreach name="tag_list" item="vo"}
+                                <input type="checkbox" name="tag[]" value="{$vo.id}" title="{$vo.name}" {if $sign.tag}{foreach name="$sign.tag" item="v"}{if $v == $vo['id']}checked{/if}{/foreach}{/if}>
+                            {/foreach}
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">报名时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="apply_time" value="{$sign.apply_time}" class="layui-input datetime">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">饮食习惯</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_taboo" value="0" title="无禁忌" {if condition="$sign.is_taboo==0"} checked="checked"{/if}>
+                            <input type="radio" name="is_taboo" value="1" title="清真" {if condition="$sign.is_taboo==1"} checked="checked"{/if}>
+
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">参观意向</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="purpose" value="0" title="参观企业" {if condition="$sign.purpose==0"} checked="checked"{/if}>
+                            <input type="radio" name="purpose" value="1" title="参观项目" {if condition="$sign.purpose==1"} checked="checked"{/if}>
+                            <input type="radio" name="purpose" value="2" title="全部参观" {if condition="$sign.purpose==2"} checked="checked"{/if}>
+                            <input type="radio" name="purpose" value="3" title="不参观"  {if condition="$sign.purpose==3"} checked="checked"{/if}>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否付费</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_fee" value="0" title="否" {if condition="$sign.is_fee==0"} checked="checked"{/if}>
+                            <input type="radio" name="is_fee" value="1" title="是" {if condition="$sign.is_fee==1"} checked="checked"{/if}>
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否签到</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_sign" value="0" title="否" {if condition="$sign.is_sign==0"} checked="checked"{/if}>
+                            <input type="radio" name="is_sign" value="1" title="是" {if condition="$sign.is_sign==1"} checked="checked"{/if}>
+
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item"> 
+                        <label class="layui-form-label">来程交通</label>
+                        <div class="layui-input-block">
+                            <select name="come_id" lay-verify="required" lay-search>
+                                {if $sign.come_id != 0}<option value="{$sign.come_id}">{$trafficName[$sign['come_id']]}</option>{/if}
+                                {foreach name="traffic_list" item="vo"}
+                                <option value="{$vo.id}"> {$vo.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item"> 
+                        <label class="layui-form-label">返程交通</label>
+                        <div class="layui-input-block">
+                            <select name="go_id" lay-verify="required" lay-search>
+                                {if $sign.go_id != 0}<option value="{$sign.come_id}">{$trafficName[$sign['go_id']]}</option>{/if}
+                                {foreach name="traffic_list" item="vo"}
+                                <option value="{$vo.id}"> {$vo.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="remark" class="layui-textarea" id="description">{$sign.remark}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$sign.id}">
+                            <button class="layui-btn" lay-submit lay-filter="*">更新</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

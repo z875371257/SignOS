@@ -1,0 +1,124 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">参会人员签到管理</li>
+            <li class=""><a href="{:url('admin/sign/add')}">添加参会人员</a></li>
+
+            <li class=""><a href="{:url('admin/sign/excel')}">导出excel表</a></li>
+        </ul>
+        <div class="layui-tab-content" id="printer">
+            <div class="layui-tab-item layui-show">
+
+                <form class="layui-form layui-form-pane" action="{:url('admin/sign/index')}" method="get">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键词</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="keyword" value="{$keyword}" style="width:400px;" placeholder="关键词可以是{姓名}{公司名}{邮箱}{电话}{签到码}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn">搜索</button>
+                    </div>
+                </form>
+                <hr>
+
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px;">ID</th>
+                        <th>姓名</th>
+                        <th>公司</th>
+                        <th>职务</th>
+                        <th>手机</th>
+                        <th>邮箱</th>
+                        <th>签到码</th>
+                        <th>座位</th>
+                        <th>是否付费</th>
+                        <th>是否签到</th>
+                        <th>餐饮习惯</th>
+                        <th>报名时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="sign_list" item="vo" key="k"}
+                    <tr>
+                        <td>{$k+$zsort}</td>
+                        <td>{$vo.truename}</td>
+                        <td>{$vo.company_cn}</td>
+                        <td>{$vo.posts}</td>
+                        <td>{$vo.tel}</td>
+                        <td>{$vo.email}</td>
+                        <td>{$vo.rand}</td>
+                        <td>{$vo.seat}</td>
+                        <td>{php}echo $vo['is_fee']==1 ? '<p style="color:green">已付费</p>' : '<p style="color:red">未付费</p>';{/php}</td>
+                        <td>{php}echo $vo['is_sign']==1 ? '<p style="color:green">已签到</p>' : '<p style="color:red">未签到</p>';{/php}</td>
+                        <td>{php}echo $vo['is_taboo']==1 ? '<p style="color:green">清真</p>' : '<p style="color:red">无禁忌</p>';{/php}</td>
+                        <td>{$vo.apply_time}</td>
+                        <td>
+                            <?php if($vo['is_sign'] == '0'){ ?> <a href="javascript:;" onclick="sign({$vo['id']})" class="layui-btn layui-btn-warm layui-btn-mini">签到</a> <?php }else{ ?>
+                                <a href="javascript:;" class="layui-btn layui-btn-warm layui-btn-mini">已签到</a><?php } ?>
+
+                            <a href="{:url('admin/sign/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+                            <a href="{:url('admin/sign/delete',['id'=>$vo['id']])}" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <!--分页-->
+                {$sign_list->render()}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+
+    <script type="text/javascript">
+
+        function sign( id ){
+            layer.confirm('确定已付费并签到？', {
+              btn: ['是的','点错了'] //按钮
+            }, function(){
+                $.ajax({
+                    url: "/admin/sign/sign?id="+id,
+
+                    success:function(res){
+                        console.log(res)
+                        if( res.code = '200') {
+                            // 获取用户信息
+                            info = res.data
+                            // 当前页HTML页面
+                            var boxbody = window.document.body.innerHTML
+                            // 需要打印的页面
+                            var htmls = '<div class="print_box" id="print-box" style="margin: 100px auto;"><div class="p_name" style="margin-top:1460px!important;text-align:center;font-size:60px;">'+info.truename+'</div> <div class="p_posts" style="margin-top:20px;text-align:center;font-size:48px;">'+info.posts+'</div><div class="p_com" style="margin-top:20px;text-align:center;font-size:48px;">'+info.company_cn+'</div><div style="margin-top:40px;text-align:center;"><img src="https://os.chplaza.com.cn/'+info.code+'" alt="" ></div></div>';
+
+                            // 用需要打印的页面给当前页面替换
+                            window.document.body.innerHTML = htmls
+
+                            setTimeout(function(){
+                                // 进行打印
+                                window.print()
+                                // 将当前页面替换过来
+                                window.document.body.innerHTML = boxbody
+                                // 刷新
+                                window.location.reload()
+                            },400);
+                           
+                        } else {
+                            alert('签到失败')
+                        }
+                        
+                    }
+                })
+            });
+        }
+        
+    </script>
+    
+{/block}

@@ -1,0 +1,49 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+	<!--startprint-->
+	<style type="text/css">
+		/*.print_box{  }
+		.p_name{margin-top:60px!important;}
+		.pr{font-size:18px;text-align: center;margin-top:20px;}
+		.p_posts{}
+		.p_com{}*/
+		.butt{text-align: center;}
+	</style>
+	<div class="print_box" id="print-box" style="margin: 100px auto;">
+		<div class="p_name" style="margin-top:660px!important;text-align:center;font-size:60px;">{$sign.truename}</div>
+	    <div class="p_posts" style="margin-top:20px;text-align:center;font-size:48px;">{$sign.posts}</div>
+	    <div class="p_com" style="margin-top:20px;text-align:center;font-size:48px;">{$company_cn[$sign.company_id]}哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵呵呵呵或或或或或</div>
+	</div>
+	<!--endprint-->
+	<div class="butt">
+		<button class="layui-btn print-r">打印</button>
+	</div>
+</div>
+
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+	$('.print-r').click(function(){
+
+		var newWin=.open();   
+	  	var titleHTML=document.getElementById("print-box").innerHTML;   
+	  	newWin.document.write(titleHTML);   
+	  	newWin.document.location.reload();   
+	  	newWin.print();
+	// 	bdhtml=window.document.body.innerHTML; 
+	//     sprnstr="<!--startprint-->";   
+	//     eprnstr="<!--endprint-->";   
+	//     prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);   
+	//     prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));   
+	//     window.document.body.innerHTML=prnhtml;  
+	//     window.print();   
+	})
+
+	// var titleHTML=document.getElementById("doctitle").innerHTML;   
+	//   newWin.document.write(titleHTML);   
+	//   newWin.document.location.reload();   
+	//   newWin.print(); 
+</script>
+{/block}

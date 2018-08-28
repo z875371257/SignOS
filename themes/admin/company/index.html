@@ -1,0 +1,68 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">公司</li>
+            <li class=""><a href="{:url('admin/company/add')}">添加公司</a></li>
+            <li class=""><a href="{:url('admin/company/excel')}">导出Excel表</a></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+
+                <form class="layui-form layui-form-pane" action="{:url('admin/company/index')}" method="get">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键词</label>
+                        <div class="layui-input-inline">
+                            <input type="text" style="width:400px;" name="keyword" value="{$keyword}" placeholder="关键词可以是{公司名}{经办人}{职位}{电话}{邮箱}" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn">搜索</button>
+                    </div>
+                </form>
+                <hr>
+
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px;">ID</th>
+                        <th>公司名</th>
+                        <th>经办人</th>
+                        <th>岗位</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                        <th>参会费</th>
+                        <th>备注</th>
+                        <th>添加时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="company" item="vo"  key="k"}
+                    <tr>
+                        <td>{$k+$zsort}</td>
+                        <td>{$vo.company_cn}</td>
+                        <td>{$vo.agent}</td>
+                        <td>{$vo.posts}</td>
+                        <td>{$vo.tel}</td>
+                        <td>{$vo.email}</td>
+                        <td>{$vo.join_fee}</td>
+                        <td>{$vo.fee_remark}</td>
+                        <td>{$vo.create_time}</td>
+                        <td>
+                            <a href="{:url('admin/company/edit',['id'=>$vo['id']])}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+                            <a href="{:url('admin/company/delete',['id'=>$vo['id']])}" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <!--分页-->
+                {$company->render()}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

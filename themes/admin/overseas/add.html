@@ -1,0 +1,68 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body"> 
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class=""><a href="{:url('admin/overseas/index')}">海外用户管理</a></li>
+            <li class="layui-this"><a href="{:url('admin/overseas/add')}">添加海外订阅用户</a></li>
+            <li class=""><a href="{:url('admin/overseas/send_sms')}">群发邮件</a></li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-container" action="{:url('admin/overseas/save')}" method="post">
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="uname"  required  lay-verify="required" placeholder="请输入用户名" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">公司名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="company"  required placeholder="请输入公司名" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">国别</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="nationality"   placeholder="国别" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">岗位</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="posts" placeholder="（选填）请输入岗位" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="tel"  placeholder="（选填）请输入手机" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" placeholder="（选填）请输入邮箱" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="*">更新</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

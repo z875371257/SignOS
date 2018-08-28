@@ -1,0 +1,100 @@
+{extend name="base" /}
+{block name="body"}
+<div class="layui-body">
+    <!--tab标签-->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class=""><a href="{:url('admin/stay/index')}">企业住宿管理</a></li>
+            <li class=""><a href="{:url('admin/stay/add')}">添加企业住宿</a></li>
+            <li class="layui-this">编辑企业住宿</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-container" action="{:url('admin/stay/update')}" method="post">
+                    
+                    <div class="layui-form-item"> 
+                        <label class="layui-form-label">公司名</label>
+                        <div class="layui-input-block">
+                            <select name="company_id" lay-verify="required" lay-search>
+                                <option value="{$stay.company_id}">{$company_cn[$stay['company_id']]} </option>
+                                {foreach name="company_list" item="vo"}
+                                <option value="{$vo.id}"> {$vo.company_cn}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入住酒店</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="hotel" value="{$stay.hotel}"  placeholder="请输入酒店" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标间</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="stay1" value="{$stay.stay1}" placeholder="请输入标间数量" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入住时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="stay1_addtime" value="{$stay.stay1_addtime}" class="layui-input datetime">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">退房时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="stay1_endtime" value="{$stay.stay1_endtime}" class="layui-input datetime">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">大床房</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="stay2" value="{$stay.stay2}" placeholder="请输入大床房数量" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入住时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="stay2_addtime" value="{$stay.stay2_addtime}" class="layui-input datetime">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">退房时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="stay2_endtime" value="{$stay.stay2_endtime}" class="layui-input datetime">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">其它房</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="stay3" value="{$stay.stay3}" placeholder="请输入其它房数量" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入住时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="stay3_addtime" value="{$stay.stay3_addtime}" class="layui-input datetime">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">退房时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="stay3_endtime" value="{$stay.stay3_endtime}" class="layui-input datetime">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="hidden" name="id" value="{$stay.id}">
+                            <button class="layui-btn" lay-submit lay-filter="*">更新</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
